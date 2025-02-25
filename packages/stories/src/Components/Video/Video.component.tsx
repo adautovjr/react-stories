@@ -6,12 +6,15 @@ import { SoundIcon } from '../SoundIcon';
 
 const key = 'RSIsMute';
 const WINDOW: any = typeof window === 'undefined' ? {} : window;
-WINDOW?.localStorage?.setItem(key, 'true');
+WINDOW?.localStorage?.setItem(
+  key,
+  WINDOW?.localStorage?.getItem(key) ? WINDOW?.localStorage?.getItem(key) : 'true'
+);
 
 export function Video(props: IStoryComponentProps) {
   const { isPaused } = hooks.useStoriesContext();
   const [isMuted, setIsMuted] = useState(
-    WINDOW?.localStorage?.getItem(key) === 'true',
+    WINDOW?.localStorage?.getItem(key) === 'true'
   );
   const [showLoader, setShowLoader] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -35,7 +38,6 @@ export function Video(props: IStoryComponentProps) {
       return;
     }
     videoRef.current.play().catch(() => {
-      setMute(true);
       videoRef.current?.play();
     });
   }, [isPaused]);
